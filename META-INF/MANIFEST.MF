@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Annotations, Stereotypes and Attributes plugin for Archi
+Bundle-SymbolicName: gimatdinov.archiannotations;singleton:=true
+Bundle-Version: 0.0.4.qualifier
+Bundle-Vendor: Gimatdinov Ildar
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ClassPath: target/classes/
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: gimatdinov.archiannotations.ArchiAnnotationsPlugin
+Require-Bundle: org.eclipse.core.runtime,
+ com.archimatetool.editor,
+ com.archimatetool.canvas,
+ com.archimatetool.help,
+ org.eclipse.swt,
+ com.archimatetool.model,
+ org.eclipse.emf.ecore,
+ org.eclipse.help,
+ org.eclipse.gef,
+ org.eclipse.osgi
+Export-Package: gimatdinov.archiannotations,
+ gimatdinov.archiannotations.preferences,
+ gimatdinov.archiannotations.ui.provider.elements,
+ gimatdinov.archiannotations.ui.provider.elements.figures,
+ gimatdinov.archiannotations.ui.provider.relationships,
+ gimatdinov.archiannotations.ui.provider.relationships.figures
