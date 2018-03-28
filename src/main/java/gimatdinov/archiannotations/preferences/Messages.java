@@ -18,6 +18,9 @@ public class Messages extends NLS {
 	public static String AttributesVisible;
 	public static String AttributesUsageDescription;
 
+	public static String ConnectionLabelLocation;
+	public static String ConnectionLabelLocation_TuneMiddle;
+
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
 	}

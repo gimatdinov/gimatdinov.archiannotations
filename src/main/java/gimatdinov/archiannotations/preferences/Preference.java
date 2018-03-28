@@ -56,4 +56,8 @@ public class Preference implements IPreferenceConstants {
 		return STORE.getString(IPreferenceConstants.ATTRIBUTE_DISPLAY_POSTFIX);
 	}
 
+	public static boolean isExtraConnectionLabelLocatorEnable() {
+		return STORE.getBoolean(IPreferenceConstants.EXTRA_CONNECTION_LABEL_LOCATOR_ENABLE);
+	}
+
 }

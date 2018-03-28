@@ -22,6 +22,7 @@ public class ArchiAnnotationsPreferencesPage extends PreferencePage
 	private Button stereotypesVisibleButton;
 	private Button annotationsVisibleButton;
 	private Button attributesVisibleButton;
+	private Button extraConnectionLabelLocatorEnableButton;
 
 	public ArchiAnnotationsPreferencesPage() {
 		setPreferenceStore(ArchiAnnotationsPlugin.INSTANCE.getPreferenceStore());
@@ -70,6 +71,16 @@ public class ArchiAnnotationsPreferencesPage extends PreferencePage
 		Label attributesLabel = new Label(attributesGroup, SWT.NULL);
 		attributesLabel.setText(Messages.AttributesUsageDescription);
 
+		Group connectionLabelGroup = new Group(client, SWT.NULL);
+		connectionLabelGroup.setText(Messages.ConnectionLabelLocation);
+		connectionLabelGroup.setLayout(new GridLayout(1, false));
+		connectionLabelGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		extraConnectionLabelLocatorEnableButton = new Button(connectionLabelGroup, SWT.CHECK);
+		extraConnectionLabelLocatorEnableButton.setText(Messages.ConnectionLabelLocation_TuneMiddle);
+		extraConnectionLabelLocatorEnableButton.setLayoutData(gd);
+
 		setValues();
 		return client;
 	}
@@ -78,6 +89,8 @@ public class ArchiAnnotationsPreferencesPage extends PreferencePage
 		stereotypesVisibleButton.setSelection(getPreferenceStore().getBoolean(STEREOTYPES_VISIBLE));
 		annotationsVisibleButton.setSelection(getPreferenceStore().getBoolean(ANNOTATIONS_VISIBLE));
 		attributesVisibleButton.setSelection(getPreferenceStore().getBoolean(ATTRIBUTES_VISIBLE));
+		extraConnectionLabelLocatorEnableButton
+				.setSelection(getPreferenceStore().getBoolean(EXTRA_CONNECTION_LABEL_LOCATOR_ENABLE));
 	}
 
 	@Override
@@ -85,6 +98,8 @@ public class ArchiAnnotationsPreferencesPage extends PreferencePage
 		getPreferenceStore().setValue(STEREOTYPES_VISIBLE, stereotypesVisibleButton.getSelection());
 		getPreferenceStore().setValue(ANNOTATIONS_VISIBLE, annotationsVisibleButton.getSelection());
 		getPreferenceStore().setValue(ATTRIBUTES_VISIBLE, attributesVisibleButton.getSelection());
+		getPreferenceStore().setValue(EXTRA_CONNECTION_LABEL_LOCATOR_ENABLE,
+				extraConnectionLabelLocatorEnableButton.getSelection());
 		return true;
 	}
 
@@ -93,6 +108,8 @@ public class ArchiAnnotationsPreferencesPage extends PreferencePage
 		stereotypesVisibleButton.setSelection(getPreferenceStore().getDefaultBoolean(STEREOTYPES_VISIBLE));
 		annotationsVisibleButton.setSelection(getPreferenceStore().getDefaultBoolean(ANNOTATIONS_VISIBLE));
 		attributesVisibleButton.setSelection(getPreferenceStore().getDefaultBoolean(ATTRIBUTES_VISIBLE));
+		extraConnectionLabelLocatorEnableButton
+				.setSelection(getPreferenceStore().getDefaultBoolean(EXTRA_CONNECTION_LABEL_LOCATOR_ENABLE));
 		super.performDefaults();
 	}
 

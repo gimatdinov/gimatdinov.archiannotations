@@ -15,4 +15,6 @@ public interface IPreferenceConstants {
 	String ATTRIBUTE_PROPERTY_KEY = "attributePropertyKey";
 	String ATTRIBUTE_DISPLAY_PREFIX = "attributeDisplayPrefix";
 	String ATTRIBUTE_DISPLAY_POSTFIX = "attributeDisplayPostfix";
+
+	String EXTRA_CONNECTION_LABEL_LOCATOR_ENABLE = "extraConnectionLabelMiddleLocatorEnable";
 }
