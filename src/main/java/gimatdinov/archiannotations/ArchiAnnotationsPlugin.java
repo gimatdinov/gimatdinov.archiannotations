@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.BundleContext;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.connections.AbstractArchimateConnectionFigure;
@@ -22,17 +23,31 @@ import gimatdinov.archiannotations.preferences.Preference;
 
 public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
 	public static final String PLUGIN_ID = "gimatdinov.archiannotations";
-	public static ArchiAnnotationsPlugin INSTANCE;
+
+	private static ArchiAnnotationsPlugin INSTANCE;
 
 	private ArchiAnnotationsFinder stereotypesFinder;
 	private ArchiAnnotationsFinder annotationsFinder;
 	private ArchiAnnotationsFinder attributesFinder;
 
 	public ArchiAnnotationsPlugin() {
+	}
+
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
 		INSTANCE = this;
 		initStereotypesFinder();
 		initAnnotationsFinder();
 		initAttributesFinder();
+	}
+
+	public void stop(BundleContext context) throws Exception {
+		INSTANCE = null;
+		super.stop(context);
+	}
+
+	public static ArchiAnnotationsPlugin getDefault() {
+		return INSTANCE;
 	}
 
 	public void initStereotypesFinder() {

@@ -25,7 +25,7 @@ public class ArchiAnnotationsPreferencesPage extends PreferencePage
 	private Button extraConnectionLabelLocatorEnableButton;
 
 	public ArchiAnnotationsPreferencesPage() {
-		setPreferenceStore(ArchiAnnotationsPlugin.INSTANCE.getPreferenceStore());
+		setPreferenceStore(ArchiAnnotationsPlugin.getDefault().getPreferenceStore());
 	}
 
 	@Override
