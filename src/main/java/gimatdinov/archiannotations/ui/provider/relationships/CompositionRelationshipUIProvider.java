@@ -9,15 +9,15 @@ import com.archimatetool.model.IArchimatePackage;
 import gimatdinov.archiannotations.ui.provider.relationships.figures.CompositionConnectionFigure;
 
 public class CompositionRelationshipUIProvider
-		extends com.archimatetool.editor.ui.factory.relationships.CompositionRelationshipUIProvider {
+        extends com.archimatetool.editor.ui.factory.relationships.CompositionRelationshipUIProvider {
 
-	@Override
-	public EClass providerFor() {
-		return IArchimatePackage.eINSTANCE.getCompositionRelationship();
-	}
+    @Override
+    public EClass providerFor() {
+        return IArchimatePackage.eINSTANCE.getCompositionRelationship();
+    }
 
-	@Override
-	public EditPart createEditPart() {
-		return new ArchimateRelationshipEditPart(CompositionConnectionFigure.class);
-	}
+    @Override
+    public EditPart createEditPart() {
+        return new ArchimateRelationshipEditPart(CompositionConnectionFigure.class);
+    }
 }

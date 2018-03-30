@@ -4,9 +4,9 @@ import gimatdinov.archiannotations.ArchiAnnotationsPlugin;
 
 public class InteractionFigure extends com.archimatetool.editor.diagram.figures.elements.InteractionFigure {
 
-	@Override
-	protected void setText() {
-		ArchiAnnotationsPlugin.process(this, getDiagramModelObject());
-	}
+    @Override
+    protected void setText() {
+        ArchiAnnotationsPlugin.process(this, getDiagramModelObject());
+    }
 
 }

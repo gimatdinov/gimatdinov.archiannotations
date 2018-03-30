@@ -6,9 +6,9 @@ import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
 
 public class CourseOfActionUIProvider extends com.archimatetool.editor.ui.factory.elements.CourseOfActionUIProvider {
 
-	@Override
-	public EditPart createEditPart() {
-		return new ArchimateElementEditPart(
-				gimatdinov.archiannotations.ui.provider.elements.figures.CourseOfActionFigure.class);
-	}
+    @Override
+    public EditPart createEditPart() {
+        return new ArchimateElementEditPart(
+                gimatdinov.archiannotations.ui.provider.elements.figures.CourseOfActionFigure.class);
+    }
 }

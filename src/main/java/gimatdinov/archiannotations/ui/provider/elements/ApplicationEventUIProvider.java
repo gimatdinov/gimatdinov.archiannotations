@@ -5,10 +5,10 @@ import org.eclipse.gef.EditPart;
 import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
 
 public class ApplicationEventUIProvider
-		extends com.archimatetool.editor.ui.factory.elements.ApplicationEventUIProvider {
+        extends com.archimatetool.editor.ui.factory.elements.ApplicationEventUIProvider {
 
-	@Override
-	public EditPart createEditPart() {
-		return new ArchimateElementEditPart(gimatdinov.archiannotations.ui.provider.elements.figures.EventFigure.class);
-	}
+    @Override
+    public EditPart createEditPart() {
+        return new ArchimateElementEditPart(gimatdinov.archiannotations.ui.provider.elements.figures.EventFigure.class);
+    }
 }

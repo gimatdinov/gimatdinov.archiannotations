@@ -9,15 +9,15 @@ import com.archimatetool.model.IArchimatePackage;
 import gimatdinov.archiannotations.ui.provider.relationships.figures.AssociationConnectionFigure;
 
 public class AssociationRelationshipUIProvider
-		extends com.archimatetool.editor.ui.factory.relationships.AssociationRelationshipUIProvider {
+        extends com.archimatetool.editor.ui.factory.relationships.AssociationRelationshipUIProvider {
 
-	@Override
-	public EClass providerFor() {
-		return IArchimatePackage.eINSTANCE.getAssociationRelationship();
-	}
+    @Override
+    public EClass providerFor() {
+        return IArchimatePackage.eINSTANCE.getAssociationRelationship();
+    }
 
-	@Override
-	public EditPart createEditPart() {
-		return new ArchimateRelationshipEditPart(AssociationConnectionFigure.class);
-	}
+    @Override
+    public EditPart createEditPart() {
+        return new ArchimateRelationshipEditPart(AssociationConnectionFigure.class);
+    }
 }

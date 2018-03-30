@@ -6,8 +6,8 @@ import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
 
 public class ValueUIProvider extends com.archimatetool.editor.ui.factory.elements.ValueUIProvider {
 
-	@Override
-	public EditPart createEditPart() {
-		return new ArchimateElementEditPart(gimatdinov.archiannotations.ui.provider.elements.figures.ValueFigure.class);
-	}
+    @Override
+    public EditPart createEditPart() {
+        return new ArchimateElementEditPart(gimatdinov.archiannotations.ui.provider.elements.figures.ValueFigure.class);
+    }
 }

@@ -10,9 +10,9 @@ import com.archimatetool.model.IProperties;
 
 public class ArchiAnnotationsNotification extends NotificationWrapper {
 
-	public ArchiAnnotationsNotification(final IProperties properties) {
-		super(new ENotificationImpl((InternalEObject) properties, Notification.SET,
-				IArchimatePackage.Literals.NAMEABLE__NAME, "", ""));
-	}
+    public ArchiAnnotationsNotification(final IProperties properties) {
+        super(new ENotificationImpl((InternalEObject) properties, Notification.SET,
+                IArchimatePackage.Literals.NAMEABLE__NAME, "", ""));
+    }
 
 }

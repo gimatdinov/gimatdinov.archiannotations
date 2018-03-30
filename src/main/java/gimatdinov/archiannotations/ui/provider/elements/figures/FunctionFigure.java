@@ -4,9 +4,9 @@ import gimatdinov.archiannotations.ArchiAnnotationsPlugin;
 
 public class FunctionFigure extends com.archimatetool.editor.diagram.figures.elements.FunctionFigure {
 
-	@Override
-	protected void setText() {
-		ArchiAnnotationsPlugin.process(this, getDiagramModelObject());
-	}
+    @Override
+    protected void setText() {
+        ArchiAnnotationsPlugin.process(this, getDiagramModelObject());
+    }
 
 }

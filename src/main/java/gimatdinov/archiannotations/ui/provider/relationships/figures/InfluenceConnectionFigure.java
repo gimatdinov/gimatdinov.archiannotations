@@ -10,26 +10,26 @@ import gimatdinov.archiannotations.extra.ConnectionLabelMiddleLocator;
 import gimatdinov.archiannotations.preferences.Preference;
 
 public class InfluenceConnectionFigure
-		extends com.archimatetool.editor.diagram.figures.connections.InfluenceConnectionFigure {
+        extends com.archimatetool.editor.diagram.figures.connections.InfluenceConnectionFigure {
 
-	@Override
-	protected void setConnectionText() {
-		ArchiAnnotationsPlugin.process(this, getModelConnection());
-	}
+    @Override
+    protected void setConnectionText() {
+        ArchiAnnotationsPlugin.process(this, getModelConnection());
+    }
 
-	@Override
-	public void setConstraint(IFigure child, Object constraint) {
-		if (Preference.isExtraConnectionLabelLocatorEnable()) {
-			if (constraint instanceof ArchiConnectionEndpointLocator) {
-				super.setConstraint(child, constraint);
-			} else {
-				if (constraint instanceof ConnectionLocator) {
-					super.setConstraint(child, new ConnectionLabelMiddleLocator(this, getConnectionLabel()));
-				}
-			}
-		} else {
-			super.setConstraint(child, constraint);
-		}
-	}
+    @Override
+    public void setConstraint(IFigure child, Object constraint) {
+        if (Preference.isExtraConnectionLabelLocatorEnable()) {
+            if (constraint instanceof ArchiConnectionEndpointLocator) {
+                super.setConstraint(child, constraint);
+            } else {
+                if (constraint instanceof ConnectionLocator) {
+                    super.setConstraint(child, new ConnectionLabelMiddleLocator(this, getConnectionLabel()));
+                }
+            }
+        } else {
+            super.setConstraint(child, constraint);
+        }
+    }
 
 }

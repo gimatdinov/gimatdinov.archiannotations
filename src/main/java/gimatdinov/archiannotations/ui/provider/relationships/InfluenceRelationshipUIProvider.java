@@ -9,15 +9,15 @@ import com.archimatetool.model.IArchimatePackage;
 import gimatdinov.archiannotations.ui.provider.relationships.figures.InfluenceConnectionFigure;
 
 public class InfluenceRelationshipUIProvider
-		extends com.archimatetool.editor.ui.factory.relationships.InfluenceRelationshipUIProvider {
+        extends com.archimatetool.editor.ui.factory.relationships.InfluenceRelationshipUIProvider {
 
-	@Override
-	public EClass providerFor() {
-		return IArchimatePackage.eINSTANCE.getInfluenceRelationship();
-	}
+    @Override
+    public EClass providerFor() {
+        return IArchimatePackage.eINSTANCE.getInfluenceRelationship();
+    }
 
-	@Override
-	public EditPart createEditPart() {
-		return new ArchimateRelationshipEditPart(InfluenceConnectionFigure.class);
-	}
+    @Override
+    public EditPart createEditPart() {
+        return new ArchimateRelationshipEditPart(InfluenceConnectionFigure.class);
+    }
 }

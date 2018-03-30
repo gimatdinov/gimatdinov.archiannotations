@@ -5,11 +5,11 @@ import org.eclipse.gef.EditPart;
 import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
 
 public class ApplicationInterfaceUIProvider
-		extends com.archimatetool.editor.ui.factory.elements.ApplicationInterfaceUIProvider {
+        extends com.archimatetool.editor.ui.factory.elements.ApplicationInterfaceUIProvider {
 
-	@Override
-	public EditPart createEditPart() {
-		return new ArchimateElementEditPart(
-				gimatdinov.archiannotations.ui.provider.elements.figures.InterfaceFigure.class);
-	}
+    @Override
+    public EditPart createEditPart() {
+        return new ArchimateElementEditPart(
+                gimatdinov.archiannotations.ui.provider.elements.figures.InterfaceFigure.class);
+    }
 }

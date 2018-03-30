@@ -9,15 +9,15 @@ import com.archimatetool.model.IArchimatePackage;
 import gimatdinov.archiannotations.ui.provider.relationships.figures.AggregationConnectionFigure;
 
 public class AggregationRelationshipUIProvider
-		extends com.archimatetool.editor.ui.factory.relationships.AggregationRelationshipUIProvider {
+        extends com.archimatetool.editor.ui.factory.relationships.AggregationRelationshipUIProvider {
 
-	@Override
-	public EClass providerFor() {
-		return IArchimatePackage.eINSTANCE.getAggregationRelationship();
-	}
+    @Override
+    public EClass providerFor() {
+        return IArchimatePackage.eINSTANCE.getAggregationRelationship();
+    }
 
-	@Override
-	public EditPart createEditPart() {
-		return new ArchimateRelationshipEditPart(AggregationConnectionFigure.class);
-	}
+    @Override
+    public EditPart createEditPart() {
+        return new ArchimateRelationshipEditPart(AggregationConnectionFigure.class);
+    }
 }

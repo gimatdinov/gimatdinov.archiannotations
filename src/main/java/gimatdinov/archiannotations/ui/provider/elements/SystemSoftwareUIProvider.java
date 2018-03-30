@@ -6,9 +6,9 @@ import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
 
 public class SystemSoftwareUIProvider extends com.archimatetool.editor.ui.factory.elements.SystemSoftwareUIProvider {
 
-	@Override
-	public EditPart createEditPart() {
-		return new ArchimateElementEditPart(
-				gimatdinov.archiannotations.ui.provider.elements.figures.SystemSoftwareFigure.class);
-	}
+    @Override
+    public EditPart createEditPart() {
+        return new ArchimateElementEditPart(
+                gimatdinov.archiannotations.ui.provider.elements.figures.SystemSoftwareFigure.class);
+    }
 }

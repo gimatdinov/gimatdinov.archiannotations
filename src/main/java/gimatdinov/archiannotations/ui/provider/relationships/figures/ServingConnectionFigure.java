@@ -10,26 +10,26 @@ import gimatdinov.archiannotations.extra.ConnectionLabelMiddleLocator;
 import gimatdinov.archiannotations.preferences.Preference;
 
 public class ServingConnectionFigure
-		extends com.archimatetool.editor.diagram.figures.connections.ServingConnectionFigure {
-	@Override
+        extends com.archimatetool.editor.diagram.figures.connections.ServingConnectionFigure {
+    @Override
 
-	protected void setConnectionText() {
-		ArchiAnnotationsPlugin.process(this, getModelConnection());
-	}
+    protected void setConnectionText() {
+        ArchiAnnotationsPlugin.process(this, getModelConnection());
+    }
 
-	@Override
-	public void setConstraint(IFigure child, Object constraint) {
-		if (Preference.isExtraConnectionLabelLocatorEnable()) {
-			if (constraint instanceof ArchiConnectionEndpointLocator) {
-				super.setConstraint(child, constraint);
-			} else {
-				if (constraint instanceof ConnectionLocator) {
-					super.setConstraint(child, new ConnectionLabelMiddleLocator(this, getConnectionLabel()));
-				}
-			}
-		} else {
-			super.setConstraint(child, constraint);
-		}
-	}
+    @Override
+    public void setConstraint(IFigure child, Object constraint) {
+        if (Preference.isExtraConnectionLabelLocatorEnable()) {
+            if (constraint instanceof ArchiConnectionEndpointLocator) {
+                super.setConstraint(child, constraint);
+            } else {
+                if (constraint instanceof ConnectionLocator) {
+                    super.setConstraint(child, new ConnectionLabelMiddleLocator(this, getConnectionLabel()));
+                }
+            }
+        } else {
+            super.setConstraint(child, constraint);
+        }
+    }
 
 }

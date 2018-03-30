@@ -6,9 +6,9 @@ import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
 
 public class BusinessServiceUIProvider extends com.archimatetool.editor.ui.factory.elements.BusinessServiceUIProvider {
 
-	@Override
-	public EditPart createEditPart() {
-		return new ArchimateElementEditPart(
-				gimatdinov.archiannotations.ui.provider.elements.figures.ServiceFigure.class);
-	}
+    @Override
+    public EditPart createEditPart() {
+        return new ArchimateElementEditPart(
+                gimatdinov.archiannotations.ui.provider.elements.figures.ServiceFigure.class);
+    }
 }

@@ -6,9 +6,9 @@ import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
 
 public class MaterialUIProvider extends com.archimatetool.editor.ui.factory.elements.MaterialUIProvider {
 
-	@Override
-	public EditPart createEditPart() {
-		return new ArchimateElementEditPart(
-				gimatdinov.archiannotations.ui.provider.elements.figures.MaterialFigure.class);
-	}
+    @Override
+    public EditPart createEditPart() {
+        return new ArchimateElementEditPart(
+                gimatdinov.archiannotations.ui.provider.elements.figures.MaterialFigure.class);
+    }
 }

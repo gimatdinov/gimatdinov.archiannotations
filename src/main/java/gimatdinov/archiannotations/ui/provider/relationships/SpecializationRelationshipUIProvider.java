@@ -9,15 +9,15 @@ import com.archimatetool.model.IArchimatePackage;
 import gimatdinov.archiannotations.ui.provider.relationships.figures.SpecializationConnectionFigure;
 
 public class SpecializationRelationshipUIProvider
-		extends com.archimatetool.editor.ui.factory.relationships.SpecializationRelationshipUIProvider {
+        extends com.archimatetool.editor.ui.factory.relationships.SpecializationRelationshipUIProvider {
 
-	@Override
-	public EClass providerFor() {
-		return IArchimatePackage.eINSTANCE.getSpecializationRelationship();
-	}
+    @Override
+    public EClass providerFor() {
+        return IArchimatePackage.eINSTANCE.getSpecializationRelationship();
+    }
 
-	@Override
-	public EditPart createEditPart() {
-		return new ArchimateRelationshipEditPart(SpecializationConnectionFigure.class);
-	}
+    @Override
+    public EditPart createEditPart() {
+        return new ArchimateRelationshipEditPart(SpecializationConnectionFigure.class);
+    }
 }

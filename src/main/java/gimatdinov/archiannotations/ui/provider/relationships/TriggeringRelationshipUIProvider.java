@@ -9,15 +9,15 @@ import com.archimatetool.model.IArchimatePackage;
 import gimatdinov.archiannotations.ui.provider.relationships.figures.TriggeringConnectionFigure;
 
 public class TriggeringRelationshipUIProvider
-		extends com.archimatetool.editor.ui.factory.relationships.TriggeringRelationshipUIProvider {
+        extends com.archimatetool.editor.ui.factory.relationships.TriggeringRelationshipUIProvider {
 
-	@Override
-	public EClass providerFor() {
-		return IArchimatePackage.eINSTANCE.getTriggeringRelationship();
-	}
+    @Override
+    public EClass providerFor() {
+        return IArchimatePackage.eINSTANCE.getTriggeringRelationship();
+    }
 
-	@Override
-	public EditPart createEditPart() {
-		return new ArchimateRelationshipEditPart(TriggeringConnectionFigure.class);
-	}
+    @Override
+    public EditPart createEditPart() {
+        return new ArchimateRelationshipEditPart(TriggeringConnectionFigure.class);
+    }
 }

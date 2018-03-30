@@ -6,8 +6,8 @@ import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
 
 public class GoalUIProvider extends com.archimatetool.editor.ui.factory.elements.GoalUIProvider {
 
-	@Override
-	public EditPart createEditPart() {
-		return new ArchimateElementEditPart(gimatdinov.archiannotations.ui.provider.elements.figures.GoalFigure.class);
-	}
+    @Override
+    public EditPart createEditPart() {
+        return new ArchimateElementEditPart(gimatdinov.archiannotations.ui.provider.elements.figures.GoalFigure.class);
+    }
 }
