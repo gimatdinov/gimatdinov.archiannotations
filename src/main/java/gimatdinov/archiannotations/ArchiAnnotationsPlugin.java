@@ -1,19 +1,20 @@
 package gimatdinov.archiannotations;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.connections.AbstractArchimateConnectionFigure;
-import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.impl.DiagramModelArchimateConnection;
@@ -26,6 +27,7 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
 
 	private static ArchiAnnotationsPlugin INSTANCE;
 
+	private Set<IIdentifier> objectsWithListeners;
 	private ArchiAnnotationsFinder stereotypesFinder;
 	private ArchiAnnotationsFinder annotationsFinder;
 	private ArchiAnnotationsFinder attributesFinder;
@@ -36,9 +38,13 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		INSTANCE = this;
-		initStereotypesFinder();
-		initAnnotationsFinder();
-		initAttributesFinder();
+		objectsWithListeners = new HashSet<>();
+		stereotypesFinder = new ArchiAnnotationsFinder(Preference.getStereotypePropertyKey(),
+				Preference.getStereotypeDisplayPrefix(), Preference.getStereotypeDisplayPostfix(), false);
+		annotationsFinder = new ArchiAnnotationsFinder(Preference.getAnnotationPropertyKey(),
+				Preference.getAnnotationDisplayPrefix(), Preference.getAnnotationDisplayPostfix(), false);
+		attributesFinder = new ArchiAnnotationsFinder(Preference.getAttributePropertyKey(),
+				Preference.getAttributeDisplayPrefix(), Preference.getAttributeDisplayPostfix(), true);
 	}
 
 	public void stop(BundleContext context) throws Exception {
@@ -50,39 +56,24 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
 		return INSTANCE;
 	}
 
-	public void initStereotypesFinder() {
-		stereotypesFinder = new ArchiAnnotationsFinder(Preference.getStereotypePropertyKey(),
-				Preference.getStereotypeDisplayPrefix(), Preference.getStereotypeDisplayPostfix(), false);
-	}
-
-	public void initAnnotationsFinder() {
-		annotationsFinder = new ArchiAnnotationsFinder(Preference.getAnnotationPropertyKey(),
-				Preference.getAnnotationDisplayPrefix(), Preference.getAnnotationDisplayPostfix(), false);
-	}
-
-	public void initAttributesFinder() {
-		attributesFinder = new ArchiAnnotationsFinder(Preference.getAttributePropertyKey(),
-				Preference.getAttributeDisplayPrefix(), Preference.getAttributeDisplayPostfix(), true);
-	}
-
-	private static StringBuilder findAnnotations(INameable object, char groupSeparator) {
+	private StringBuilder findAnnotations(INameable object, char groupSeparator) {
 		StringBuilder text = new StringBuilder();
 		if (Preference.isStereotypesVisible()) {
-			StringBuilder builder = INSTANCE.stereotypesFinder.find(object);
+			StringBuilder builder = stereotypesFinder.find(object);
 			if (builder.length() > 0) {
 				builder.append(groupSeparator);
 				text.append(builder);
 			}
 		}
 		if (Preference.isAnnotationsVisible()) {
-			StringBuilder builder = INSTANCE.annotationsFinder.find(object);
+			StringBuilder builder = annotationsFinder.find(object);
 			if (builder.length() > 0) {
 				builder.append(groupSeparator);
 				text.append(builder);
 			}
 		}
 		if (Preference.isAttributesVisible()) {
-			StringBuilder builder = INSTANCE.attributesFinder.find(object);
+			StringBuilder builder = attributesFinder.find(object);
 			if (builder.length() > 0) {
 				builder.append(groupSeparator);
 				text.append(builder);
@@ -91,34 +82,27 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
 		return text;
 	}
 
-	private static void injectPropertiesListener(INameable object) {
-		IProperties properties = null;
-		if (object instanceof IDiagramModelObject) {
-			DiagramModelArchimateObject dmaObject = (DiagramModelArchimateObject) object;
-			properties = dmaObject.getArchimateElement();
+	private void injectPropertiesListener(IIdentifier object) {
+		if (objectsWithListeners.contains(object)) {
+			return;
 		}
-		if (object instanceof IDiagramModelArchimateConnection) {
-			DiagramModelArchimateConnection dmaConnection = (DiagramModelArchimateConnection) object;
-			properties = (IProperties) dmaConnection.getArchimateRelationship();
-		}
-		if (properties != null) {
-			final IProperties _properties = properties;
-			properties.eAdapters().add(new EContentAdapter() {
-				public void notifyChanged(Notification notification) {
-					super.notifyChanged(notification);
-					if (!(notification instanceof ArchiAnnotationsNotification)) {
-						Notification msg = new ENotificationImpl((InternalEObject) _properties, Notification.SET,
-								IArchimatePackage.Literals.NAMEABLE__NAME, "", "");
-						_properties.eNotify(new ArchiAnnotationsNotification(msg));
-					}
+		final IProperties properties = (IProperties) object;
+		properties.eAdapters().add(new EContentAdapter() {
+			public void notifyChanged(Notification notification) {
+				super.notifyChanged(notification);
+				if (!(notification instanceof ArchiAnnotationsNotification)) {
+					properties.eNotify(new ArchiAnnotationsNotification(properties));
 				}
-			});
-		}
+			}
+		});
+
 	}
 
 	public static void process(AbstractTextControlContainerFigure figure, IDiagramModelObject object) {
-		injectPropertiesListener(object);
-		StringBuilder text = findAnnotations(object, '\n');
+		DiagramModelArchimateObject dmaObject = (DiagramModelArchimateObject) object;
+		IIdentifier element = dmaObject.getArchimateElement();
+		getDefault().injectPropertiesListener(element);
+		StringBuilder text = getDefault().findAnnotations(object, '\n');
 		text.append(object.getName());
 		if (figure.getTextControl() instanceof TextFlow) {
 			((TextFlow) figure.getTextControl()).setText(text.toString());
@@ -128,8 +112,10 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
 	}
 
 	public static void process(AbstractArchimateConnectionFigure figure, IDiagramModelArchimateConnection connection) {
-		injectPropertiesListener(connection);
-		StringBuilder text = findAnnotations(connection, ' ');
+		DiagramModelArchimateConnection dmaConnection = (DiagramModelArchimateConnection) connection;
+		IIdentifier relationship = dmaConnection.getArchimateRelationship();
+		getDefault().injectPropertiesListener(relationship);
+		StringBuilder text = getDefault().findAnnotations(connection, ' ');
 		text.append(connection.getName());
 		figure.getConnectionLabel().setText(text.toString());
 	}
