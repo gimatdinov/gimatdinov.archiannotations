@@ -9,13 +9,14 @@ import com.archimatetool.model.impl.DiagramModelArchimateObject;
 
 public class ArchiAnnotationsFinder {
 
-    private final String propertyKey;
+    private final String propertyKeyPrefix;
     private final String displayPrefix;
     private final String dispalyPostfix;
     private final boolean grouping;
 
-    public ArchiAnnotationsFinder(String propertyKey, String displayPrefix, String dispalyPostfix, boolean grouping) {
-        this.propertyKey = propertyKey;
+    public ArchiAnnotationsFinder(String propertyKeyPrefix, String displayPrefix, String dispalyPostfix,
+            boolean grouping) {
+        this.propertyKeyPrefix = propertyKeyPrefix;
         this.displayPrefix = displayPrefix;
         this.dispalyPostfix = dispalyPostfix;
         this.grouping = grouping;
@@ -37,7 +38,7 @@ public class ArchiAnnotationsFinder {
     private void find(StringBuilder builder, List<IProperty> properties) {
         int count = 0;
         for (IProperty property : properties) {
-            if (propertyKey.equals(property.getKey())) {
+            if ((property.getKey() != null) && property.getKey().startsWith(propertyKeyPrefix)) {
                 if (grouping && count == 0) {
                     builder.append(displayPrefix);
                 }
@@ -51,7 +52,12 @@ public class ArchiAnnotationsFinder {
                 if (!grouping) {
                     builder.append(displayPrefix);
                 }
-                builder.append(property.getValue());
+                builder.append(property.getKey().substring(propertyKeyPrefix.length()));
+                if (property.getValue() != null && property.getValue().length() > 0) {
+                    builder.append('(');
+                    builder.append(property.getValue());
+                    builder.append(')');
+                }
                 if (!grouping) {
                     builder.append(dispalyPostfix);
                 }

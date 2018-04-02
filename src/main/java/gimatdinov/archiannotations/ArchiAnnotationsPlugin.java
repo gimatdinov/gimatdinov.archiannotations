@@ -27,7 +27,7 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
 
     private static ArchiAnnotationsPlugin INSTANCE;
 
-    private Set<IIdentifier> objectsWithListeners;
+    private Set<String> objectsWithListeners;
     private ArchiAnnotationsFinder stereotypesFinder;
     private ArchiAnnotationsFinder annotationsFinder;
     private ArchiAnnotationsFinder attributesFinder;
@@ -41,11 +41,11 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
         INSTANCE = this;
         try {
             objectsWithListeners = new HashSet<>();
-            stereotypesFinder = new ArchiAnnotationsFinder(Preference.getStereotypePropertyKey(),
+            stereotypesFinder = new ArchiAnnotationsFinder(Preference.getStereotypePropertyKeyPrefix(),
                     Preference.getStereotypeDisplayPrefix(), Preference.getStereotypeDisplayPostfix(), false);
-            annotationsFinder = new ArchiAnnotationsFinder(Preference.getAnnotationPropertyKey(),
+            annotationsFinder = new ArchiAnnotationsFinder(Preference.getAnnotationPropertyKeyPrefix(),
                     Preference.getAnnotationDisplayPrefix(), Preference.getAnnotationDisplayPostfix(), false);
-            attributesFinder = new ArchiAnnotationsFinder(Preference.getAttributePropertyKey(),
+            attributesFinder = new ArchiAnnotationsFinder(Preference.getAttributePropertyKeyPrefix(),
                     Preference.getAttributeDisplayPrefix(), Preference.getAttributeDisplayPostfix(), true);
             Logger.info("start: OK");
         } catch (Exception e) {
@@ -91,17 +91,20 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
     }
 
     private void injectPropertiesListener(IIdentifier object) {
-        if (objectsWithListeners.contains(object)) {
+        if (object.getId() == null || objectsWithListeners.contains(object.getId())) {
             return;
         }
+        //Logger.info("injectPropertiesListener:" + object.getId());
+        objectsWithListeners.add(object.getId());
         final IProperties properties = (IProperties) object;
         properties.eAdapters().add(new EContentAdapter() {
             @Override
             public void notifyChanged(Notification notification) {
-                super.notifyChanged(notification);
                 if (!(notification instanceof ArchiAnnotationsNotification)) {
+                    //Logger.info("notifyChanged:" + object.getId());
                     properties.eNotify(new ArchiAnnotationsNotification(properties));
                 }
+                super.notifyChanged(notification);
             }
         });
 

@@ -14,8 +14,8 @@ public class Preference implements IPreferenceConstants {
         return getStore().getBoolean(IPreferenceConstants.ANNOTATIONS_VISIBLE);
     }
 
-    public static String getAnnotationPropertyKey() {
-        return getStore().getString(IPreferenceConstants.ANNOTATION_PROPERTY_KEY);
+    public static String getAnnotationPropertyKeyPrefix() {
+        return getStore().getString(IPreferenceConstants.ANNOTATION_PROPERTY_KEY_PREFIX);
     }
 
     public static String getAnnotationDisplayPrefix() {
@@ -30,8 +30,8 @@ public class Preference implements IPreferenceConstants {
         return getStore().getBoolean(IPreferenceConstants.STEREOTYPES_VISIBLE);
     }
 
-    public static String getStereotypePropertyKey() {
-        return getStore().getString(IPreferenceConstants.STEREOTYPE_PROPERTY_KEY);
+    public static String getStereotypePropertyKeyPrefix() {
+        return getStore().getString(IPreferenceConstants.STEREOTYPE_PROPERTY_KEY_PREFIX);
     }
 
     public static String getStereotypeDisplayPrefix() {
@@ -46,8 +46,8 @@ public class Preference implements IPreferenceConstants {
         return getStore().getBoolean(IPreferenceConstants.ATTRIBUTES_VISIBLE);
     }
 
-    public static String getAttributePropertyKey() {
-        return getStore().getString(IPreferenceConstants.ATTRIBUTE_PROPERTY_KEY);
+    public static String getAttributePropertyKeyPrefix() {
+        return getStore().getString(IPreferenceConstants.ATTRIBUTE_PROPERTY_KEY_PREFIX);
     }
 
     public static String getAttributeDisplayPrefix() {
