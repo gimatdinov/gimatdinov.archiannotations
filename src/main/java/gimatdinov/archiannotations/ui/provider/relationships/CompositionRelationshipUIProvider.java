@@ -8,6 +8,7 @@ import com.archimatetool.model.IArchimatePackage;
 
 import gimatdinov.archiannotations.ui.provider.relationships.figures.CompositionConnectionFigure;
 
+@SuppressWarnings({ "squid:MaximumInheritanceDepth", "squid:S2176" })
 public class CompositionRelationshipUIProvider
         extends com.archimatetool.editor.ui.factory.relationships.CompositionRelationshipUIProvider {
 

@@ -2,6 +2,7 @@ package gimatdinov.archiannotations.preferences;
 
 import org.eclipse.osgi.util.NLS;
 
+@SuppressWarnings("squid:S3008")
 public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "gimatdinov.archiannotations.preferences.messages";

@@ -9,6 +9,7 @@ import gimatdinov.archiannotations.ArchiAnnotationsPlugin;
 import gimatdinov.archiannotations.extra.ConnectionLabelMiddleLocator;
 import gimatdinov.archiannotations.preferences.Preference;
 
+@SuppressWarnings({ "squid:MaximumInheritanceDepth", "squid:S2176" })
 public class TriggeringConnectionFigure
         extends com.archimatetool.editor.diagram.figures.connections.TriggeringConnectionFigure {
 

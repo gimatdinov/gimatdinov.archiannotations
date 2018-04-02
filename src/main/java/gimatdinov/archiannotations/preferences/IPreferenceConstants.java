@@ -1,5 +1,6 @@
 package gimatdinov.archiannotations.preferences;
 
+@SuppressWarnings("squid:S1214")
 public interface IPreferenceConstants {
     String ANNOTATIONS_VISIBLE = "annotationsVisible";
     String ANNOTATION_PROPERTY_KEY_PREFIX = "annotationPropertyKeyPrefix";

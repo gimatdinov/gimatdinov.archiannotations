@@ -18,7 +18,7 @@ import gimatdinov.archiannotations.Logger;
 public class ArchiAnnotationsPreferencesPage extends PreferencePage
         implements IWorkbenchPreferencePage, IPreferenceConstants {
 
-    public final static String ID = "gimatdinov.archiannotations.preferences.ArchiAnnotationsPreferencesPage";
+    public static final String ID = "gimatdinov.archiannotations.preferences.ArchiAnnotationsPreferencesPage";
 
     private Button stereotypesVisibleButton;
     private Button annotationsVisibleButton;
@@ -27,7 +27,7 @@ public class ArchiAnnotationsPreferencesPage extends PreferencePage
     private Button loggerEnableButton;
 
     public ArchiAnnotationsPreferencesPage() {
-        setPreferenceStore(ArchiAnnotationsPlugin.getDefault().getPreferenceStore());
+        setPreferenceStore(ArchiAnnotationsPlugin.getInstance().getPreferenceStore());
     }
 
     @Override

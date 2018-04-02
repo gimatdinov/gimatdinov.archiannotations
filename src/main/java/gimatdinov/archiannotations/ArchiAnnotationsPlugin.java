@@ -34,7 +34,7 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
     @Override
     public void start(BundleContext context) throws Exception {
         super.start(context);
-        instance = this;
+        setInstance(this);
         try {
             objectsWithListeners = new HashSet<>();
             stereotypesFinder = new ArchiAnnotationsFinder(Preference.getStereotypePropertyKeyPrefix(),
@@ -53,11 +53,15 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
 
     @Override
     public void stop(BundleContext context) throws Exception {
-        instance = null;
+        setInstance(null);
         super.stop(context);
     }
 
-    public static ArchiAnnotationsPlugin getDefault() {
+    private static void setInstance(ArchiAnnotationsPlugin instance) {
+        ArchiAnnotationsPlugin.instance = instance;
+    }
+
+    public static ArchiAnnotationsPlugin getInstance() {
         return instance;
     }
 
@@ -112,8 +116,8 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
         Logger.info("process: " + figure.getClass().getSimpleName() + ", " + object.getId());
         DiagramModelArchimateObject dmaObject = (DiagramModelArchimateObject) object;
         IIdentifier element = dmaObject.getArchimateElement();
-        getDefault().injectPropertiesListener(element);
-        StringBuilder text = getDefault().findAnnotations(object, '\n');
+        getInstance().injectPropertiesListener(element);
+        StringBuilder text = getInstance().findAnnotations(object, '\n');
         text.append(object.getName());
         if (figure.getTextControl() instanceof TextFlow) {
             ((TextFlow) figure.getTextControl()).setText(text.toString());
@@ -126,8 +130,8 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
         Logger.info("process: " + figure.getClass().getSimpleName() + ", " + connection.getId());
         DiagramModelArchimateConnection dmaConnection = (DiagramModelArchimateConnection) connection;
         IIdentifier relationship = dmaConnection.getArchimateRelationship();
-        getDefault().injectPropertiesListener(relationship);
-        StringBuilder text = getDefault().findAnnotations(connection, ' ');
+        getInstance().injectPropertiesListener(relationship);
+        StringBuilder text = getInstance().findAnnotations(connection, ' ');
         text.append(connection.getName());
         figure.getConnectionLabel().setText(text.toString());
     }

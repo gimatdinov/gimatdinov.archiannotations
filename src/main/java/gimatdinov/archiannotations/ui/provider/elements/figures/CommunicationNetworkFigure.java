@@ -2,6 +2,7 @@ package gimatdinov.archiannotations.ui.provider.elements.figures;
 
 import gimatdinov.archiannotations.ArchiAnnotationsPlugin;
 
+@SuppressWarnings({ "squid:MaximumInheritanceDepth", "squid:S2176" })
 public class CommunicationNetworkFigure
         extends com.archimatetool.editor.diagram.figures.elements.CommunicationNetworkFigure {
 

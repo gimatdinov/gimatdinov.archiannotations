@@ -6,8 +6,11 @@ import gimatdinov.archiannotations.ArchiAnnotationsPlugin;
 
 public class Preference implements IPreferenceConstants {
 
+    private Preference() {
+    }
+
     private static IPreferenceStore getStore() {
-        return ArchiAnnotationsPlugin.getDefault().getPreferenceStore();
+        return ArchiAnnotationsPlugin.getInstance().getPreferenceStore();
     }
 
     public static boolean isAnnotationsVisible() {

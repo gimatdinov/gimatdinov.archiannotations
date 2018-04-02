@@ -9,7 +9,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer impleme
 
     @Override
     public void initializeDefaultPreferences() {
-        IPreferenceStore store = ArchiAnnotationsPlugin.getDefault().getPreferenceStore();
+        IPreferenceStore store = ArchiAnnotationsPlugin.getInstance().getPreferenceStore();
 
         store.setDefault(ANNOTATIONS_VISIBLE, true);
         store.setDefault(ANNOTATION_PROPERTY_KEY_PREFIX, "@");

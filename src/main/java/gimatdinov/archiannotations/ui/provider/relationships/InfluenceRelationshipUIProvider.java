@@ -8,6 +8,7 @@ import com.archimatetool.model.IArchimatePackage;
 
 import gimatdinov.archiannotations.ui.provider.relationships.figures.InfluenceConnectionFigure;
 
+@SuppressWarnings({ "squid:MaximumInheritanceDepth", "squid:S2176" })
 public class InfluenceRelationshipUIProvider
         extends com.archimatetool.editor.ui.factory.relationships.InfluenceRelationshipUIProvider {
 

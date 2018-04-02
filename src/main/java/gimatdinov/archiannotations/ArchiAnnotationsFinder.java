@@ -43,28 +43,28 @@ public class ArchiAnnotationsFinder {
                     builder.append(displayPrefix);
                 }
                 if (count > 0) {
-                    if (grouping) {
-                        builder.append(", ");
-                    } else {
-                        builder.append(' ');
-                    }
+                    builder.append(grouping ? ", " : " ");
                 }
-                if (!grouping) {
-                    builder.append(displayPrefix);
-                }
-                builder.append(property.getKey().substring(propertyKeyPrefix.length()));
-                if (property.getValue() != null && property.getValue().length() > 0) {
-                    builder.append('(');
-                    builder.append(property.getValue());
-                    builder.append(')');
-                }
-                if (!grouping) {
-                    builder.append(dispalyPostfix);
-                }
+                append(builder, property);
                 count++;
             }
         }
         if (grouping && count > 0) {
+            builder.append(dispalyPostfix);
+        }
+    }
+
+    private void append(StringBuilder builder, IProperty property) {
+        if (!grouping) {
+            builder.append(displayPrefix);
+        }
+        builder.append(property.getKey().substring(propertyKeyPrefix.length()));
+        if (property.getValue() != null && property.getValue().length() > 0) {
+            builder.append('(');
+            builder.append(property.getValue());
+            builder.append(')');
+        }
+        if (!grouping) {
             builder.append(dispalyPostfix);
         }
     }
