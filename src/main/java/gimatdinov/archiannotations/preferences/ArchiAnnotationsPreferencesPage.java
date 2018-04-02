@@ -13,16 +13,18 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import gimatdinov.archiannotations.ArchiAnnotationsPlugin;
+import gimatdinov.archiannotations.Logger;
 
 public class ArchiAnnotationsPreferencesPage extends PreferencePage
         implements IWorkbenchPreferencePage, IPreferenceConstants {
 
-    public static String ID = "gimatdinov.archiannotations.preferences.ArchiAnnotationsPreferencesPage";
+    public final static String ID = "gimatdinov.archiannotations.preferences.ArchiAnnotationsPreferencesPage";
 
     private Button stereotypesVisibleButton;
     private Button annotationsVisibleButton;
     private Button attributesVisibleButton;
     private Button extraConnectionLabelLocatorEnableButton;
+    private Button loggerEnableButton;
 
     public ArchiAnnotationsPreferencesPage() {
         setPreferenceStore(ArchiAnnotationsPlugin.getDefault().getPreferenceStore());
@@ -81,6 +83,16 @@ public class ArchiAnnotationsPreferencesPage extends PreferencePage
         extraConnectionLabelLocatorEnableButton.setText(Messages.ConnectionLabelLocation_TuneMiddle);
         extraConnectionLabelLocatorEnableButton.setLayoutData(gd);
 
+        Group debugGroup = new Group(client, SWT.NULL);
+        debugGroup.setText(Messages.Debug);
+        debugGroup.setLayout(new GridLayout(1, false));
+        debugGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
+        loggerEnableButton = new Button(debugGroup, SWT.CHECK);
+        loggerEnableButton.setText(Messages.LoggerEnable);
+        loggerEnableButton.setLayoutData(gd);
+
         setValues();
         return client;
     }
@@ -91,6 +103,7 @@ public class ArchiAnnotationsPreferencesPage extends PreferencePage
         attributesVisibleButton.setSelection(getPreferenceStore().getBoolean(ATTRIBUTES_VISIBLE));
         extraConnectionLabelLocatorEnableButton
                 .setSelection(getPreferenceStore().getBoolean(EXTRA_CONNECTION_LABEL_LOCATOR_ENABLE));
+        loggerEnableButton.setSelection(getPreferenceStore().getBoolean(LOGGER_ENABLE));
     }
 
     @Override
@@ -100,6 +113,8 @@ public class ArchiAnnotationsPreferencesPage extends PreferencePage
         getPreferenceStore().setValue(ATTRIBUTES_VISIBLE, attributesVisibleButton.getSelection());
         getPreferenceStore().setValue(EXTRA_CONNECTION_LABEL_LOCATOR_ENABLE,
                 extraConnectionLabelLocatorEnableButton.getSelection());
+        getPreferenceStore().setValue(LOGGER_ENABLE, loggerEnableButton.getSelection());
+        Logger.setEnable(Preference.isLoggerEnable());
         return true;
     }
 
@@ -110,11 +125,13 @@ public class ArchiAnnotationsPreferencesPage extends PreferencePage
         attributesVisibleButton.setSelection(getPreferenceStore().getDefaultBoolean(ATTRIBUTES_VISIBLE));
         extraConnectionLabelLocatorEnableButton
                 .setSelection(getPreferenceStore().getDefaultBoolean(EXTRA_CONNECTION_LABEL_LOCATOR_ENABLE));
+        loggerEnableButton.setSelection(getPreferenceStore().getDefaultBoolean(LOGGER_ENABLE));
         super.performDefaults();
     }
 
     @Override
     public void init(IWorkbench workbench) {
+        // none
     }
 
 }

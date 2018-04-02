@@ -17,4 +17,6 @@ public interface IPreferenceConstants {
     String ATTRIBUTE_DISPLAY_POSTFIX = "attributeDisplayPostfix";
 
     String EXTRA_CONNECTION_LABEL_LOCATOR_ENABLE = "extraConnectionLabelMiddleLocatorEnable";
+
+    String LOGGER_ENABLE = "loggerEnable";
 }

@@ -15,7 +15,6 @@ import com.archimatetool.editor.diagram.figures.connections.AbstractArchimateCon
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IIdentifier;
-import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.impl.DiagramModelArchimateConnection;
 import com.archimatetool.model.impl.DiagramModelArchimateObject;
@@ -25,20 +24,17 @@ import gimatdinov.archiannotations.preferences.Preference;
 public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
     public static final String PLUGIN_ID = "gimatdinov.archiannotations";
 
-    private static ArchiAnnotationsPlugin INSTANCE;
+    private static ArchiAnnotationsPlugin instance;
 
     private Set<String> objectsWithListeners;
     private ArchiAnnotationsFinder stereotypesFinder;
     private ArchiAnnotationsFinder annotationsFinder;
     private ArchiAnnotationsFinder attributesFinder;
 
-    public ArchiAnnotationsPlugin() {
-    }
-
     @Override
     public void start(BundleContext context) throws Exception {
         super.start(context);
-        INSTANCE = this;
+        instance = this;
         try {
             objectsWithListeners = new HashSet<>();
             stereotypesFinder = new ArchiAnnotationsFinder(Preference.getStereotypePropertyKeyPrefix(),
@@ -52,19 +48,21 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
             Logger.error("start: FAIL", e);
             throw e;
         }
+        Logger.setEnable(Preference.isLoggerEnable());
     }
 
     @Override
     public void stop(BundleContext context) throws Exception {
-        INSTANCE = null;
+        instance = null;
         super.stop(context);
     }
 
     public static ArchiAnnotationsPlugin getDefault() {
-        return INSTANCE;
+        return instance;
     }
 
-    private StringBuilder findAnnotations(INameable object, char groupSeparator) {
+    private StringBuilder findAnnotations(IIdentifier object, char groupSeparator) {
+        Logger.info("findAnnotations: " + object.getId());
         StringBuilder text = new StringBuilder();
         if (Preference.isStereotypesVisible()) {
             StringBuilder builder = stereotypesFinder.find(object);
@@ -94,14 +92,14 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
         if (object.getId() == null || objectsWithListeners.contains(object.getId())) {
             return;
         }
-        //Logger.info("injectPropertiesListener:" + object.getId());
+        Logger.info("injectPropertiesListener: " + object.getId());
         objectsWithListeners.add(object.getId());
         final IProperties properties = (IProperties) object;
         properties.eAdapters().add(new EContentAdapter() {
             @Override
             public void notifyChanged(Notification notification) {
                 if (!(notification instanceof ArchiAnnotationsNotification)) {
-                    //Logger.info("notifyChanged:" + object.getId());
+                    Logger.info("notifyChanged: " + object.getId());
                     properties.eNotify(new ArchiAnnotationsNotification(properties));
                 }
                 super.notifyChanged(notification);
@@ -111,6 +109,7 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
     }
 
     public static void process(AbstractTextControlContainerFigure figure, IDiagramModelObject object) {
+        Logger.info("process: " + figure.getClass().getSimpleName() + ", " + object.getId());
         DiagramModelArchimateObject dmaObject = (DiagramModelArchimateObject) object;
         IIdentifier element = dmaObject.getArchimateElement();
         getDefault().injectPropertiesListener(element);
@@ -124,6 +123,7 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
     }
 
     public static void process(AbstractArchimateConnectionFigure figure, IDiagramModelArchimateConnection connection) {
+        Logger.info("process: " + figure.getClass().getSimpleName() + ", " + connection.getId());
         DiagramModelArchimateConnection dmaConnection = (DiagramModelArchimateConnection) connection;
         IIdentifier relationship = dmaConnection.getArchimateRelationship();
         getDefault().injectPropertiesListener(relationship);

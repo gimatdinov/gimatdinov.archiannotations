@@ -21,6 +21,9 @@ public class Messages extends NLS {
     public static String ConnectionLabelLocation;
     public static String ConnectionLabelLocation_TuneMiddle;
 
+    public static String Debug;
+    public static String LoggerEnable;
+
     static {
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);
     }

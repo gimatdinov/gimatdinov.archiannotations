@@ -27,6 +27,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer impleme
         store.setDefault(ATTRIBUTE_DISPLAY_POSTFIX, "]");
 
         store.setDefault(EXTRA_CONNECTION_LABEL_LOCATOR_ENABLE, true);
+
+        store.setDefault(LOGGER_ENABLE, false);
     }
 
 }

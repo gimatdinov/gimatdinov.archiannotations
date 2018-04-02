@@ -4,21 +4,21 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
 public class Logger {
-    public static boolean ENABLE = true;
+    public static boolean enable = true;
 
     private Logger() {
     }
 
     public static boolean isEnable() {
-        return ENABLE;
+        return enable;
     }
 
     public static void setEnable(boolean enable) {
-        ENABLE = enable;
+        Logger.enable = enable;
     }
 
     public static void log(int severity, String message, Throwable throwable) {
-        if (ENABLE) {
+        if (enable) {
             ArchiAnnotationsPlugin.getDefault().getLog()
                     .log(new Status(severity, ArchiAnnotationsPlugin.PLUGIN_ID, IStatus.OK, message, throwable));
         }

@@ -2,7 +2,7 @@ package gimatdinov.archiannotations;
 
 import java.util.List;
 
-import com.archimatetool.model.INameable;
+import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.impl.DiagramModelArchimateConnection;
 import com.archimatetool.model.impl.DiagramModelArchimateObject;
@@ -22,7 +22,7 @@ public class ArchiAnnotationsFinder {
         this.grouping = grouping;
     }
 
-    public StringBuilder find(INameable object) {
+    public StringBuilder find(IIdentifier object) {
         StringBuilder builder = new StringBuilder();
         if (object instanceof DiagramModelArchimateObject) {
             DiagramModelArchimateObject dmaObject = (DiagramModelArchimateObject) object;

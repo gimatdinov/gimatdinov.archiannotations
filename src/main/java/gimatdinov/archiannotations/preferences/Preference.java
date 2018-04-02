@@ -62,4 +62,8 @@ public class Preference implements IPreferenceConstants {
         return getStore().getBoolean(IPreferenceConstants.EXTRA_CONNECTION_LABEL_LOCATOR_ENABLE);
     }
 
+    public static boolean isLoggerEnable() {
+        return getStore().getBoolean(IPreferenceConstants.LOGGER_ENABLE);
+    }
+
 }
