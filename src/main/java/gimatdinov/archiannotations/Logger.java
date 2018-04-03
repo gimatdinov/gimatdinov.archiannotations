@@ -4,7 +4,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
 public class Logger {
-    private static boolean enable = true;
+    private static boolean enable = false;
 
     private Logger() {
     }

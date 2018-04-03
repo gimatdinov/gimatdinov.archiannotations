@@ -35,6 +35,7 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
     public void start(BundleContext context) throws Exception {
         super.start(context);
         setInstance(this);
+        Logger.setEnable(true);
         try {
             objectsWithListeners = new HashSet<>();
             stereotypesFinder = new ArchiAnnotationsFinder(Preference.getStereotypePropertyKeyPrefix(),
