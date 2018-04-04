@@ -1,5 +1,7 @@
 package gimatdinov.archiannotations.preferences;
 
+import java.text.MessageFormat;
+
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -47,7 +49,10 @@ public class ArchiAnnotationsPreferencesPage extends PreferencePage
         stereotypesVisibleButton.setText(Messages.StereotypesVisible);
         stereotypesVisibleButton.setLayoutData(gd);
         Label stereotypesLabel = new Label(stereotypesGroup, SWT.NULL);
-        stereotypesLabel.setText(Messages.StereotypesUsageDescription);
+        stereotypesLabel.setText(MessageFormat.format(Messages.StereotypesUsageDescription,
+                getPreferenceStore().getString(STEREOTYPE_PROPERTY_KEY_PREFIX),
+                getPreferenceStore().getString(STEREOTYPE_DISPLAY_PREFIX),
+                getPreferenceStore().getString(STEREOTYPE_DISPLAY_POSTFIX)));
 
         Group annotationsGroup = new Group(client, SWT.NULL);
         annotationsGroup.setText(Messages.Annotations);
@@ -59,7 +64,10 @@ public class ArchiAnnotationsPreferencesPage extends PreferencePage
         annotationsVisibleButton.setText(Messages.AnnotationsVisible);
         annotationsVisibleButton.setLayoutData(gd);
         Label annotationsLabel = new Label(annotationsGroup, SWT.NULL);
-        annotationsLabel.setText(Messages.AnnotationsUsageDescription);
+        annotationsLabel.setText(MessageFormat.format(Messages.AnnotationsUsageDescription,
+                getPreferenceStore().getString(ANNOTATION_PROPERTY_KEY_PREFIX),
+                getPreferenceStore().getString(ANNOTATION_DISPLAY_PREFIX),
+                getPreferenceStore().getString(ANNOTATION_DISPLAY_POSTFIX)));
 
         Group attributesGroup = new Group(client, SWT.NULL);
         attributesGroup.setText(Messages.Attributes);
@@ -71,7 +79,10 @@ public class ArchiAnnotationsPreferencesPage extends PreferencePage
         attributesVisibleButton.setText(Messages.AttributesVisible);
         attributesVisibleButton.setLayoutData(gd);
         Label attributesLabel = new Label(attributesGroup, SWT.NULL);
-        attributesLabel.setText(Messages.AttributesUsageDescription);
+        attributesLabel.setText(MessageFormat.format(Messages.AttributesUsageDescription,
+                getPreferenceStore().getString(ATTRIBUTE_PROPERTY_KEY_PREFIX),
+                getPreferenceStore().getString(ATTRIBUTE_DISPLAY_PREFIX),
+                getPreferenceStore().getString(ATTRIBUTE_DISPLAY_POSTFIX)));
 
         Group connectionLabelGroup = new Group(client, SWT.NULL);
         connectionLabelGroup.setText(Messages.ConnectionLabelLocation);

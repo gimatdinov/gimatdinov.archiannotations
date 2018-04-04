@@ -3,7 +3,7 @@ package gimatdinov.archiannotations;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IProperty;
 
-public class ArchiAnnotationsFinder {
+class ArchiAnnotationsFinder {
 
     private final String propertyKeyPrefix;
     private final String displayPrefix;
