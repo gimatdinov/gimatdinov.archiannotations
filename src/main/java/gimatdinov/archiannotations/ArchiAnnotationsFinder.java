@@ -22,7 +22,7 @@ public class ArchiAnnotationsFinder {
         this.grouping = grouping;
     }
 
-    public StringBuilder find(IIdentifier object) {
+    public String find(IIdentifier object) {
         StringBuilder builder = new StringBuilder();
         if (object instanceof DiagramModelArchimateObject) {
             DiagramModelArchimateObject dmaObject = (DiagramModelArchimateObject) object;
@@ -32,25 +32,23 @@ public class ArchiAnnotationsFinder {
             DiagramModelArchimateConnection dmaConnection = (DiagramModelArchimateConnection) object;
             find(builder, dmaConnection.getArchimateRelationship().getProperties());
         }
-        return builder;
+        if (grouping && (builder.length() > 0)) {
+            builder.insert(0, displayPrefix);
+            builder.append(dispalyPostfix);
+        }
+        return builder.toString();
     }
 
     private void find(StringBuilder builder, List<IProperty> properties) {
         int count = 0;
         for (IProperty property : properties) {
             if ((property.getKey() != null) && property.getKey().startsWith(propertyKeyPrefix)) {
-                if (grouping && count == 0) {
-                    builder.append(displayPrefix);
-                }
                 if (count > 0) {
                     builder.append(grouping ? ", " : " ");
                 }
                 append(builder, property);
                 count++;
             }
-        }
-        if (grouping && count > 0) {
-            builder.append(dispalyPostfix);
         }
     }
 

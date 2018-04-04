@@ -70,24 +70,24 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
         Logger.info("findAnnotations: " + object.getId());
         StringBuilder text = new StringBuilder();
         if (Preference.isStereotypesVisible()) {
-            StringBuilder builder = stereotypesFinder.find(object);
-            if (builder.length() > 0) {
-                builder.append(groupSeparator);
-                text.append(builder);
+            String stereotypes = stereotypesFinder.find(object);
+            if (stereotypes.length() > 0) {
+                text.append(stereotypes);
+                text.append(groupSeparator);
             }
         }
         if (Preference.isAnnotationsVisible()) {
-            StringBuilder builder = annotationsFinder.find(object);
-            if (builder.length() > 0) {
-                builder.append(groupSeparator);
-                text.append(builder);
+            String annotations = annotationsFinder.find(object);
+            if (annotations.length() > 0) {
+                text.append(annotations);
+                text.append(groupSeparator);
             }
         }
         if (Preference.isAttributesVisible()) {
-            StringBuilder builder = attributesFinder.find(object);
-            if (builder.length() > 0) {
-                builder.append(groupSeparator);
-                text.append(builder);
+            String attributes = attributesFinder.find(object);
+            if (attributes.length() > 0) {
+                text.append(attributes);
+                text.append(groupSeparator);
             }
         }
         return text;
