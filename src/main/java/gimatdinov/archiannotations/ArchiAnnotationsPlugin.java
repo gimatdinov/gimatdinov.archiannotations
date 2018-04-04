@@ -14,10 +14,8 @@ import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.model.impl.DiagramModelArchimateConnection;
-import com.archimatetool.model.impl.DiagramModelArchimateObject;
-
 import gimatdinov.archiannotations.preferences.Preference;
 
 public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
@@ -107,18 +105,23 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
 
     public static void process(AbstractTextControlContainerFigure figure) {
         IDiagramModelObject object = figure.getDiagramModelObject();
-        if (Logger.isEnable()) {
-            Logger.info("process: " + figure.getClass().getSimpleName() + ", " + object.getId());
-        }
-        DiagramModelArchimateObject dmaObject = (DiagramModelArchimateObject) object;
-        IArchimateElement element = dmaObject.getArchimateElement();
-        getInstance().injectPropertiesListener(element);
-        StringBuilder text = getInstance().findAnnotations(element, '\n');
-        text.append(object.getName());
-        if (figure.getTextControl() instanceof TextFlow) {
-            ((TextFlow) figure.getTextControl()).setText(text.toString());
-        } else if (figure.getTextControl() instanceof Label) {
-            ((Label) figure.getTextControl()).setText(text.toString());
+        if (object instanceof IDiagramModelArchimateObject) {
+            if (Logger.isEnable()) {
+                Logger.info("process: " + figure.getClass().getSimpleName() + ", " + object.getId());
+            }
+            IArchimateElement element = ((IDiagramModelArchimateObject) object).getArchimateElement();
+            getInstance().injectPropertiesListener(element);
+            StringBuilder text = getInstance().findAnnotations(element, '\n');
+            text.append(object.getName());
+            if (figure.getTextControl() instanceof TextFlow) {
+                ((TextFlow) figure.getTextControl()).setText(text.toString());
+            } else if (figure.getTextControl() instanceof Label) {
+                ((Label) figure.getTextControl()).setText(text.toString());
+            }
+        } else {
+            if (Logger.isEnable()) {
+                Logger.info("NOT process: " + figure.getClass().getSimpleName() + ", " + object.getId());
+            }
         }
     }
 
@@ -127,8 +130,7 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
         if (Logger.isEnable()) {
             Logger.info("process: " + figure.getClass().getSimpleName() + ", " + connection.getId());
         }
-        DiagramModelArchimateConnection dmaConnection = (DiagramModelArchimateConnection) connection;
-        IArchimateRelationship relationship = dmaConnection.getArchimateRelationship();
+        IArchimateRelationship relationship = connection.getArchimateRelationship();
         getInstance().injectPropertiesListener(relationship);
         StringBuilder text = getInstance().findAnnotations(relationship, ' ');
         text.append(connection.getName());
