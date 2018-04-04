@@ -7,7 +7,7 @@ public class ConstraintFigure extends com.archimatetool.editor.diagram.figures.e
 
     @Override
     protected void setText() {
-        ArchiAnnotationsPlugin.process(this, getDiagramModelObject());
+        ArchiAnnotationsPlugin.process(this);
     }
 
 }

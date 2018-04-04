@@ -8,7 +8,7 @@ public class CommunicationNetworkFigure
 
     @Override
     protected void setText() {
-        ArchiAnnotationsPlugin.process(this, getDiagramModelObject());
+        ArchiAnnotationsPlugin.process(this);
     }
 
 }

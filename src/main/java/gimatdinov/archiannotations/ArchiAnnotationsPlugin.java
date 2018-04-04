@@ -5,17 +5,16 @@ import java.util.Set;
 
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.text.TextFlow;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.connections.AbstractArchimateConnectionFigure;
+import com.archimatetool.model.IArchimateConcept;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.model.IIdentifier;
-import com.archimatetool.model.IProperties;
 import com.archimatetool.model.impl.DiagramModelArchimateConnection;
 import com.archimatetool.model.impl.DiagramModelArchimateObject;
 
@@ -66,25 +65,27 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
         return instance;
     }
 
-    private StringBuilder findAnnotations(IIdentifier object, char groupSeparator) {
-        Logger.info("findAnnotations: " + object.getId());
+    private StringBuilder findAnnotations(IArchimateConcept concept, char groupSeparator) {
+        if (Logger.isEnable()) {
+            Logger.info("findAnnotations: " + concept.getClass().getSimpleName() + ", " + concept.getId());
+        }
         StringBuilder text = new StringBuilder();
         if (Preference.isStereotypesVisible()) {
-            String stereotypes = stereotypesFinder.find(object);
+            String stereotypes = stereotypesFinder.find(concept);
             if (stereotypes.length() > 0) {
                 text.append(stereotypes);
                 text.append(groupSeparator);
             }
         }
         if (Preference.isAnnotationsVisible()) {
-            String annotations = annotationsFinder.find(object);
+            String annotations = annotationsFinder.find(concept);
             if (annotations.length() > 0) {
                 text.append(annotations);
                 text.append(groupSeparator);
             }
         }
         if (Preference.isAttributesVisible()) {
-            String attributes = attributesFinder.find(object);
+            String attributes = attributesFinder.find(concept);
             if (attributes.length() > 0) {
                 text.append(attributes);
                 text.append(groupSeparator);
@@ -93,32 +94,26 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
         return text;
     }
 
-    private void injectPropertiesListener(IIdentifier object) {
-        if (object.getId() == null || objectsWithListeners.contains(object.getId())) {
+    private void injectPropertiesListener(IArchimateConcept concept) {
+        if (concept.getId() == null || objectsWithListeners.contains(concept.getId())) {
             return;
         }
-        Logger.info("injectPropertiesListener: " + object.getId());
-        objectsWithListeners.add(object.getId());
-        final IProperties properties = (IProperties) object;
-        properties.eAdapters().add(new EContentAdapter() {
-            @Override
-            public void notifyChanged(Notification notification) {
-                if (!(notification instanceof ArchiAnnotationsNotification)) {
-                    Logger.info("notifyChanged: " + object.getId());
-                    properties.eNotify(new ArchiAnnotationsNotification(properties));
-                }
-                super.notifyChanged(notification);
-            }
-        });
-
+        if (Logger.isEnable()) {
+            Logger.info("injectPropertiesListener: " + concept.getClass().getSimpleName() + ", " + concept.getId());
+        }
+        objectsWithListeners.add(concept.getId());
+        concept.eAdapters().add(new ArchiAnnotationsAdapter(concept));
     }
 
-    public static void process(AbstractTextControlContainerFigure figure, IDiagramModelObject object) {
-        Logger.info("process: " + figure.getClass().getSimpleName() + ", " + object.getId());
+    public static void process(AbstractTextControlContainerFigure figure) {
+        IDiagramModelObject object = figure.getDiagramModelObject();
+        if (Logger.isEnable()) {
+            Logger.info("process: " + figure.getClass().getSimpleName() + ", " + object.getId());
+        }
         DiagramModelArchimateObject dmaObject = (DiagramModelArchimateObject) object;
-        IIdentifier element = dmaObject.getArchimateElement();
+        IArchimateElement element = dmaObject.getArchimateElement();
         getInstance().injectPropertiesListener(element);
-        StringBuilder text = getInstance().findAnnotations(object, '\n');
+        StringBuilder text = getInstance().findAnnotations(element, '\n');
         text.append(object.getName());
         if (figure.getTextControl() instanceof TextFlow) {
             ((TextFlow) figure.getTextControl()).setText(text.toString());
@@ -127,12 +122,15 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
         }
     }
 
-    public static void process(AbstractArchimateConnectionFigure figure, IDiagramModelArchimateConnection connection) {
-        Logger.info("process: " + figure.getClass().getSimpleName() + ", " + connection.getId());
+    public static void process(AbstractArchimateConnectionFigure figure) {
+        IDiagramModelArchimateConnection connection = figure.getModelConnection();
+        if (Logger.isEnable()) {
+            Logger.info("process: " + figure.getClass().getSimpleName() + ", " + connection.getId());
+        }
         DiagramModelArchimateConnection dmaConnection = (DiagramModelArchimateConnection) connection;
-        IIdentifier relationship = dmaConnection.getArchimateRelationship();
+        IArchimateRelationship relationship = dmaConnection.getArchimateRelationship();
         getInstance().injectPropertiesListener(relationship);
-        StringBuilder text = getInstance().findAnnotations(connection, ' ');
+        StringBuilder text = getInstance().findAnnotations(relationship, ' ');
         text.append(connection.getName());
         figure.getConnectionLabel().setText(text.toString());
     }

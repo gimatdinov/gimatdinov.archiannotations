@@ -15,7 +15,7 @@ public class AssociationConnectionFigure
 
     @Override
     protected void setConnectionText() {
-        ArchiAnnotationsPlugin.process(this, getModelConnection());
+        ArchiAnnotationsPlugin.process(this);
     }
 
     @Override

@@ -8,7 +8,7 @@ public class ApplicationComponentFigure
 
     @Override
     protected void setText() {
-        ArchiAnnotationsPlugin.process(this, getDiagramModelObject());
+        ArchiAnnotationsPlugin.process(this);
     }
 
 }

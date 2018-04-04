@@ -7,7 +7,7 @@ public class CollaborationFigure extends com.archimatetool.editor.diagram.figure
 
     @Override
     protected void setText() {
-        ArchiAnnotationsPlugin.process(this, getDiagramModelObject());
+        ArchiAnnotationsPlugin.process(this);
     }
 
 }

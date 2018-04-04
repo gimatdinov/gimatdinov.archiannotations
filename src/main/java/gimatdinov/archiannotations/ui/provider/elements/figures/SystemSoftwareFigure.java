@@ -7,7 +7,7 @@ public class SystemSoftwareFigure extends com.archimatetool.editor.diagram.figur
 
     @Override
     protected void setText() {
-        ArchiAnnotationsPlugin.process(this, getDiagramModelObject());
+        ArchiAnnotationsPlugin.process(this);
     }
 
 }

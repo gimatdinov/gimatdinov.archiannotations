@@ -7,7 +7,7 @@ public class InteractionFigure extends com.archimatetool.editor.diagram.figures.
 
     @Override
     protected void setText() {
-        ArchiAnnotationsPlugin.process(this, getDiagramModelObject());
+        ArchiAnnotationsPlugin.process(this);
     }
 
 }

@@ -15,7 +15,7 @@ public class AccessConnectionFigure
 
     @Override
     protected void setConnectionText() {
-        ArchiAnnotationsPlugin.process(this, getModelConnection());
+        ArchiAnnotationsPlugin.process(this);
     }
 
     @Override

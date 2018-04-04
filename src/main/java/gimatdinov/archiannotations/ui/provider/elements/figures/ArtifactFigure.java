@@ -7,7 +7,7 @@ public class ArtifactFigure extends com.archimatetool.editor.diagram.figures.ele
 
     @Override
     protected void setText() {
-        ArchiAnnotationsPlugin.process(this, getDiagramModelObject());
+        ArchiAnnotationsPlugin.process(this);
     }
 
 }

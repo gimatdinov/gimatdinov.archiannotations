@@ -7,7 +7,7 @@ public class NodeFigure extends com.archimatetool.editor.diagram.figures.element
 
     @Override
     protected void setText() {
-        ArchiAnnotationsPlugin.process(this, getDiagramModelObject());
+        ArchiAnnotationsPlugin.process(this);
     }
 
 }

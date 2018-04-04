@@ -7,7 +7,7 @@ public class GapFigure extends com.archimatetool.editor.diagram.figures.elements
 
     @Override
     protected void setText() {
-        ArchiAnnotationsPlugin.process(this, getDiagramModelObject());
+        ArchiAnnotationsPlugin.process(this);
     }
 
 }

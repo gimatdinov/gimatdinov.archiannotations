@@ -1,11 +1,7 @@
 package gimatdinov.archiannotations;
 
-import java.util.List;
-
-import com.archimatetool.model.IIdentifier;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IProperty;
-import com.archimatetool.model.impl.DiagramModelArchimateConnection;
-import com.archimatetool.model.impl.DiagramModelArchimateObject;
 
 public class ArchiAnnotationsFinder {
 
@@ -22,26 +18,10 @@ public class ArchiAnnotationsFinder {
         this.grouping = grouping;
     }
 
-    public String find(IIdentifier object) {
+    public String find(IArchimateConcept concept) {
         StringBuilder builder = new StringBuilder();
-        if (object instanceof DiagramModelArchimateObject) {
-            DiagramModelArchimateObject dmaObject = (DiagramModelArchimateObject) object;
-            find(builder, dmaObject.getArchimateElement().getProperties());
-        }
-        if (object instanceof DiagramModelArchimateConnection) {
-            DiagramModelArchimateConnection dmaConnection = (DiagramModelArchimateConnection) object;
-            find(builder, dmaConnection.getArchimateRelationship().getProperties());
-        }
-        if (grouping && (builder.length() > 0)) {
-            builder.insert(0, displayPrefix);
-            builder.append(dispalyPostfix);
-        }
-        return builder.toString();
-    }
-
-    private void find(StringBuilder builder, List<IProperty> properties) {
         int count = 0;
-        for (IProperty property : properties) {
+        for (IProperty property : concept.getProperties()) {
             if ((property.getKey() != null) && property.getKey().startsWith(propertyKeyPrefix)) {
                 if (count > 0) {
                     builder.append(grouping ? ", " : " ");
@@ -50,6 +30,11 @@ public class ArchiAnnotationsFinder {
                 count++;
             }
         }
+        if (grouping && (builder.length() > 0)) {
+            builder.insert(0, displayPrefix);
+            builder.append(dispalyPostfix);
+        }
+        return builder.toString();
     }
 
     private void append(StringBuilder builder, IProperty property) {

@@ -7,7 +7,7 @@ public class DeviceFigure extends com.archimatetool.editor.diagram.figures.eleme
 
     @Override
     protected void setText() {
-        ArchiAnnotationsPlugin.process(this, getDiagramModelObject());
+        ArchiAnnotationsPlugin.process(this);
     }
 
 }

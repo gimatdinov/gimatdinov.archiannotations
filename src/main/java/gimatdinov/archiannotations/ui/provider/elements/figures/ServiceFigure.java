@@ -7,7 +7,7 @@ public class ServiceFigure extends com.archimatetool.editor.diagram.figures.elem
 
     @Override
     protected void setText() {
-        ArchiAnnotationsPlugin.process(this, getDiagramModelObject());
+        ArchiAnnotationsPlugin.process(this);
     }
 
 }

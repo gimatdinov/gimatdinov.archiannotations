@@ -7,7 +7,7 @@ public class EventFigure extends com.archimatetool.editor.diagram.figures.elemen
 
     @Override
     protected void setText() {
-        ArchiAnnotationsPlugin.process(this, getDiagramModelObject());
+        ArchiAnnotationsPlugin.process(this);
     }
 
 }
