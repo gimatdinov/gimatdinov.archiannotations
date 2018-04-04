@@ -18,8 +18,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer impleme
 
         store.setDefault(STEREOTYPES_VISIBLE, true);
         store.setDefault(STEREOTYPE_PROPERTY_KEY_PREFIX, "$");
-        store.setDefault(STEREOTYPE_DISPLAY_PREFIX, "«");
-        store.setDefault(STEREOTYPE_DISPLAY_POSTFIX, "»");
+        store.setDefault(STEREOTYPE_DISPLAY_PREFIX, "\u00AB");
+        store.setDefault(STEREOTYPE_DISPLAY_POSTFIX, "\u00BB");
 
         store.setDefault(ATTRIBUTES_VISIBLE, true);
         store.setDefault(ATTRIBUTE_PROPERTY_KEY_PREFIX, "#");
