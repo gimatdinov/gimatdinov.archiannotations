@@ -17,9 +17,13 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelObject;
 import gimatdinov.archiannotations.preferences.Preference;
+import gimatdinov.archiannotations.ui.provider.elements.figures.GroupingFigure;
 
 public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
     public static final String PLUGIN_ID = "gimatdinov.archiannotations";
+
+    public static final char SEPORATOR_LINE_FEED = '\n';
+    public static final char SEPORATOR_SPACE = ' ';
 
     private static ArchiAnnotationsPlugin instance;
 
@@ -64,9 +68,6 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
     }
 
     private StringBuilder findAnnotations(IArchimateConcept concept, char groupSeparator) {
-        if (Logger.isEnable()) {
-            Logger.info("findAnnotations: " + concept.getClass().getSimpleName() + ", " + concept.getId());
-        }
         StringBuilder text = new StringBuilder();
         if (Preference.isStereotypesVisible()) {
             String stereotypes = stereotypesFinder.find(concept);
@@ -96,9 +97,6 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
         if (concept.getId() == null || objectsWithListeners.contains(concept.getId())) {
             return;
         }
-        if (Logger.isEnable()) {
-            Logger.info("injectPropertiesListener: " + concept.getClass().getSimpleName() + ", " + concept.getId());
-        }
         objectsWithListeners.add(concept.getId());
         concept.eAdapters().add(new ArchiAnnotationsAdapter(concept));
     }
@@ -111,7 +109,8 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
             }
             IArchimateElement element = ((IDiagramModelArchimateObject) object).getArchimateElement();
             getInstance().injectPropertiesListener(element);
-            StringBuilder text = getInstance().findAnnotations(element, '\n');
+            char groupSeparator = (figure instanceof GroupingFigure) ? SEPORATOR_SPACE : SEPORATOR_LINE_FEED;
+            StringBuilder text = getInstance().findAnnotations(element, groupSeparator);
             text.append(object.getName());
             if (figure.getTextControl() instanceof TextFlow) {
                 ((TextFlow) figure.getTextControl()).setText(text.toString());
@@ -132,7 +131,7 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
         }
         IArchimateRelationship relationship = connection.getArchimateRelationship();
         getInstance().injectPropertiesListener(relationship);
-        StringBuilder text = getInstance().findAnnotations(relationship, ' ');
+        StringBuilder text = getInstance().findAnnotations(relationship, SEPORATOR_SPACE);
         text.append(connection.getName());
         figure.getConnectionLabel().setText(text.toString());
     }
