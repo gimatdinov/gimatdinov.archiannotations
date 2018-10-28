@@ -11,23 +11,31 @@ import org.osgi.framework.BundleContext;
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.connections.AbstractArchimateConnectionFigure;
 import com.archimatetool.model.IArchimateConcept;
+import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IProperties;
+
+import gimatdinov.archiannotations.adapter.ConceptAdapter;
+import gimatdinov.archiannotations.adapter.DiagramAdapter;
 import gimatdinov.archiannotations.preferences.Preference;
+import gimatdinov.archiannotations.ui.mods.DiagramMod;
 import gimatdinov.archiannotations.ui.provider.elements.figures.GroupingFigure;
 
 public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
     public static final String PLUGIN_ID = "gimatdinov.archiannotations";
 
-    public static final char SEPORATOR_LINE_FEED = '\n';
-    public static final char SEPORATOR_SPACE = ' ';
+    public static final char SEPARATOR_LINE_FEED = '\n';
+    public static final char SEPARATOR_SPACE = ' ';
 
     private static ArchiAnnotationsPlugin instance;
 
-    private Set<String> objectsWithListeners;
+    private Set<String> conceptsWithListeners;
+    private Set<String> diagramsWithListeners;
+
     private ArchiAnnotationsFinder stereotypesFinder;
     private ArchiAnnotationsFinder annotationsFinder;
     private ArchiAnnotationsFinder attributesFinder;
@@ -38,7 +46,8 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
         setInstance(this);
         Logger.setEnable(true);
         try {
-            objectsWithListeners = new HashSet<>();
+            conceptsWithListeners = new HashSet<>();
+            diagramsWithListeners = new HashSet<>();
             stereotypesFinder = new ArchiAnnotationsFinder(Preference.getStereotypePropertyKeyPrefix(),
                     Preference.getStereotypeDisplayPrefix(), Preference.getStereotypeDisplayPostfix(), false);
             annotationsFinder = new ArchiAnnotationsFinder(Preference.getAnnotationPropertyKeyPrefix(),
@@ -67,24 +76,24 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
         return instance;
     }
 
-    private StringBuilder findAnnotations(IArchimateConcept concept, char groupSeparator) {
+    private StringBuilder findAnnotations(IProperties object, char groupSeparator) {
         StringBuilder text = new StringBuilder();
         if (Preference.isStereotypesVisible()) {
-            String stereotypes = stereotypesFinder.find(concept);
+            String stereotypes = stereotypesFinder.find(object);
             if (stereotypes.length() > 0) {
                 text.append(stereotypes);
                 text.append(groupSeparator);
             }
         }
         if (Preference.isAnnotationsVisible()) {
-            String annotations = annotationsFinder.find(concept);
+            String annotations = annotationsFinder.find(object);
             if (annotations.length() > 0) {
                 text.append(annotations);
                 text.append(groupSeparator);
             }
         }
         if (Preference.isAttributesVisible()) {
-            String attributes = attributesFinder.find(concept);
+            String attributes = attributesFinder.find(object);
             if (attributes.length() > 0) {
                 text.append(attributes);
                 text.append(groupSeparator);
@@ -93,23 +102,51 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
         return text;
     }
 
-    private void injectPropertiesListener(IArchimateConcept concept) {
-        if (concept.getId() == null || objectsWithListeners.contains(concept.getId())) {
+    public void injectListener(IArchimateConcept concept) {
+        if (concept.getId() == null || conceptsWithListeners.contains(concept.getId())) {
             return;
         }
-        objectsWithListeners.add(concept.getId());
-        concept.eAdapters().add(new ArchiAnnotationsAdapter(concept));
+        if (Logger.isEnable()) {
+            Logger.info("injectListener: conceptClass=" + concept.getClass().getSimpleName() + ", conceptId="
+                    + concept.getId());
+        }
+        conceptsWithListeners.add(concept.getId());
+        concept.eAdapters().add(new ConceptAdapter(concept));
+    }
+
+    public void injectListener(IArchimateDiagramModel diagram) {
+        if (diagram.getId() == null || conceptsWithListeners.contains(diagram.getId())) {
+            return;
+        }
+        if (Logger.isEnable()) {
+            Logger.info("injectListener: diagramClass=" + diagram.getClass().getSimpleName() + ", diagramId="
+                    + diagram.getId());
+        }
+        diagramsWithListeners.add(diagram.getId());
+        diagram.eAdapters().add(new DiagramAdapter(diagram));
     }
 
     public static void process(AbstractTextControlContainerFigure figure) {
         IDiagramModelObject object = figure.getDiagramModelObject();
+        DiagramMod diagramMod = new DiagramMod(object.getDiagramModel());
+        if (diagramMod.isDAAP()) {
+            if (Logger.isEnable()) {
+                Logger.info("DAAP: " + figure.getClass().getSimpleName() + ", " + object.getId());
+            }
+            if (figure.getTextControl() instanceof TextFlow) {
+                ((TextFlow) figure.getTextControl()).setText(object.getName());
+            } else if (figure.getTextControl() instanceof Label) {
+                ((Label) figure.getTextControl()).setText(object.getName());
+            }
+            return;
+        }
         if (object instanceof IDiagramModelArchimateObject) {
             if (Logger.isEnable()) {
                 Logger.info("process: " + figure.getClass().getSimpleName() + ", " + object.getId());
             }
             IArchimateElement element = ((IDiagramModelArchimateObject) object).getArchimateElement();
-            getInstance().injectPropertiesListener(element);
-            char groupSeparator = (figure instanceof GroupingFigure) ? SEPORATOR_SPACE : SEPORATOR_LINE_FEED;
+            getInstance().injectListener(element);
+            char groupSeparator = (figure instanceof GroupingFigure) ? SEPARATOR_SPACE : SEPARATOR_LINE_FEED;
             StringBuilder text = getInstance().findAnnotations(element, groupSeparator);
             text.append(object.getName());
             if (figure.getTextControl() instanceof TextFlow) {
@@ -122,16 +159,32 @@ public class ArchiAnnotationsPlugin extends AbstractUIPlugin {
                 Logger.info("NOT process: " + figure.getClass().getSimpleName() + ", " + object.getId());
             }
         }
+
     }
 
     public static void process(AbstractArchimateConnectionFigure figure) {
         IDiagramModelArchimateConnection connection = figure.getModelConnection();
+        DiagramMod diagramMod = new DiagramMod(connection.getDiagramModel());
+        if (diagramMod.isDAAP()) {
+            if (Logger.isEnable()) {
+                Logger.info("DAAP: " + figure.getClass().getSimpleName() + ", " + connection.getId());
+            }
+            figure.getConnectionLabel().setText(connection.getName());
+            return;
+        }
         if (Logger.isEnable()) {
             Logger.info("process: " + figure.getClass().getSimpleName() + ", " + connection.getId());
         }
+        if (diagramMod.isHCL()) {
+            if (Logger.isEnable()) {
+                Logger.info("HCL: " + figure.getClass().getSimpleName() + ", " + connection.getId());
+            }
+            figure.getConnectionLabel().setText("");
+            return;
+        }
         IArchimateRelationship relationship = connection.getArchimateRelationship();
-        getInstance().injectPropertiesListener(relationship);
-        StringBuilder text = getInstance().findAnnotations(relationship, SEPORATOR_SPACE);
+        getInstance().injectListener(relationship);
+        StringBuilder text = getInstance().findAnnotations(relationship, SEPARATOR_SPACE);
         text.append(connection.getName());
         figure.getConnectionLabel().setText(text.toString());
     }

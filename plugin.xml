@@ -290,6 +290,14 @@
       </uiProvider>
    </extension>
    <extension
+         name="Archimate Diagram"
+         point="com.archimatetool.editor.objectUIProvider">
+      <uiProvider
+            class="gimatdinov.archiannotations.ui.provider.diagram.ArchimateDiagramModelUIProvider"
+            id="gimatdinov.archiannotations.ui.provider.ArchimateDiagramModelUIProvider">
+      </uiProvider>
+   </extension>
+   <extension
          name="Preferences"
          point="org.eclipse.core.runtime.preferences">
       <initializer

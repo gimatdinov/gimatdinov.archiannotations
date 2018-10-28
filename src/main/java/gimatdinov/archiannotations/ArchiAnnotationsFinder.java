@@ -1,10 +1,9 @@
 package gimatdinov.archiannotations;
 
-import com.archimatetool.model.IArchimateConcept;
+import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 
 class ArchiAnnotationsFinder {
-
     private final String propertyKeyPrefix;
     private final String displayPrefix;
     private final String dispalyPostfix;
@@ -18,10 +17,10 @@ class ArchiAnnotationsFinder {
         this.grouping = grouping;
     }
 
-    public String find(IArchimateConcept concept) {
+    public String find(IProperties object) {
         StringBuilder builder = new StringBuilder();
         int count = 0;
-        for (IProperty property : concept.getProperties()) {
+        for (IProperty property : object.getProperties()) {
             if ((property.getKey() != null) && property.getKey().startsWith(propertyKeyPrefix)) {
                 if (count > 0) {
                     builder.append(grouping ? ", " : " ");
