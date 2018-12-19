@@ -3,6 +3,10 @@
 ![](https://raw.githubusercontent.com/gimatdinov/gimatdinov.archiannotations/master/screenshot-2.png)
 
 # Versions
+
+## 0.3.1
+* Bugfix.
+
 ## 0.3.0
 * New feature "Mods".
 Set property %DAAP for diagram - Disable ArchiAnotation Plugin locally.

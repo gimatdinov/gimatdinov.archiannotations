@@ -19,12 +19,13 @@ public class DiagramMod {
     }
 
     private boolean testProperty(String key) {
-        return diagram.getProperties().stream().anyMatch(property -> key.equals(property.getKey()));
+        return diagram != null && diagram.getProperties().stream().anyMatch(property -> key.equals(property.getKey()));
     }
 
     public boolean isDAAP() {
         return testProperty("%DAAP");
     }
+
     public boolean isHCL() {
         return testProperty("%HCL");
     }

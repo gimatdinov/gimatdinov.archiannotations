@@ -14,5 +14,5 @@ public class ArchimateDiagramModelUIProvider
         ArchiAnnotationsPlugin.getInstance().injectListener((IArchimateDiagramModel) instance);
         return super.createEditPart();
     }
-    
+
 }
